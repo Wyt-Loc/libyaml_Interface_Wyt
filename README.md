@@ -1,0 +1,2 @@
+# libyaml_Interface_Wyt
+基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
