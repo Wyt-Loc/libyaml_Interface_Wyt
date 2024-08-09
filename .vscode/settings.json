@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "stdio.h": "c",
+        "writeyaml.h": "c",
+        "yaml.h": "c",
+        "readyaml.h": "c",
+        "writearray.h": "c",
+        "stdlib.h": "c",
+        "changeyaml.h": "c"
+    }
+}
