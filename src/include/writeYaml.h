@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:32:23
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 01:06:10
+ * @LastEditTime: 2024-08-10 12:56:47
  * @FilePath: /libyaml_Interface_Wyt/src/include/writeYaml.h
  * @Description: 
  * 
@@ -14,6 +14,7 @@
 #include "yaml.h"
 
 
-int readYamlFile(void);
+int writeYamlFile(const char* fileName, const char* openMode);
+
 
 #endif

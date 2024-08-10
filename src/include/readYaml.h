@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-09 23:50:20
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 01:08:55
+ * @LastEditTime: 2024-08-10 13:01:23
  * @FilePath: /libyaml_Interface_Wyt/src/include/readYaml.h
  * @Description: 
  * 
@@ -15,6 +15,6 @@
 #include "yaml.h"
 
 
-int readYamlFile(FILE* file);
+int readYamlFile(const char* fileName, const char* openMode);
 
 #endif

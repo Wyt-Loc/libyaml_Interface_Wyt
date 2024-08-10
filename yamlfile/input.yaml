@@ -1,5 +1,12 @@
-A:
-- 1
-- 2
-- 3
-- 4
+---
+greeting: Hello, World!
+...
+---
+TestKey:
+- value1
+- value2
+- value3
+...
+---
+greeting: Hello, World!
+...

@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:32:23
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 01:05:39
+ * @LastEditTime: 2024-08-10 20:57:32
  * @FilePath: /libyaml_Interface_Wyt/src/include/writeArray.h
  * @Description: 
  * 
@@ -14,6 +14,19 @@
 #include "yaml.h"
 
 
-int readYamlFile(void);
+// 此结构体用来存储要写入的键值对序列也就是 sequence 格式数据
+typedef struct {  
+    char *keyName;    // 键名
+    char **values;    // 指向字符串数组的指针
+    int numValues; // 键值数组的长度  
+} KeyValueStore;
+
+KeyValueStore* createKeyValueStore(const char *keyName, int numValues);
+void addValue(KeyValueStore *store, int index, const char *value);
+void freeKeyValueStore(KeyValueStore *store);
+
+
+int writeYamlArray(const  char* fileName, const char* openMode, KeyValueStore *store);
 
 #endif
+

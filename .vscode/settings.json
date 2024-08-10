@@ -7,6 +7,10 @@
         "readyaml.h": "c",
         "writearray.h": "c",
         "stdlib.h": "c",
-        "changeyaml.h": "c"
+        "changeyaml.h": "c",
+        "getyamlrootnode.h": "c",
+        "iterativemapping.h": "c",
+        "getalldata.h": "c",
+        "locale_t.h": "c"
     }
 }
