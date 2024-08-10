@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-10 01:32:02
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 21:09:11
+ * @LastEditTime: 2024-08-11 00:17:29
  * @FilePath: /libyaml_Interface_Wyt/src/source/main.c
  * @Description: 
  * 
@@ -33,17 +33,21 @@ int main(void){
 
     // 写入文件
     writeYamlFile(inPutFileName, "w");
-    writeYamlArray(inPutFileName, "a", store);
     writeYamlFile(inPutFileName, "a");
-
-    // 得到所有类型的数据（暂时只有 键值对， 数组，和序列）
-    getAllData();
-    
+    writeYamlFile(inPutFileName, "a");
+    writeYamlArray(inPutFileName, "a", store);
+    writeYamlArray(inPutFileName, "a", store);
+    writeYamlArray(inPutFileName, "a", store);
+    writeYamlArray(inPutFileName, "a", store);
+    writeYamlArray(inPutFileName, "a", store);
+    writeYamlArray(inPutFileName, "a", store);
     // readYamlFile(inPutFileName, "r");
     // getYamlFileRootNode(inPutFileName, "r");
     // iterativeMapping();
 
-
+    // 得到所有类型的数据（暂时只有 键值对， 数组，和序列）
+    getAllData();
+    
     freeKeyValueStore(store);
     return 0;
 

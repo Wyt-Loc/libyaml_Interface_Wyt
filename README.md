@@ -25,3 +25,15 @@ yamlfile目录：用来存放yaml文件的目录。
 
 ![image-20240810235018789](./image-20240810235018789.png)
 
+
+写入键值:
+![image-20240810235018789](./image-writeyaml.png)
+
+写入数组:
+![image-20240810235018789](./image-writeArray.png)
+
+写入序列:
+
+
+读取:
+![image-20240810235018789](./image-readYaml.png)
