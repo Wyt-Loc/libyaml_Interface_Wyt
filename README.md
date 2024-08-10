@@ -37,3 +37,9 @@ yamlfile目录：用来存放yaml文件的目录。
 
 读取:
 ![image-20240810235018789](./image-readYaml.png)
+
+
+
+## 鸣谢
+
+感谢libyaml官方的开源. [text](https://github.com/yaml/libyaml)
