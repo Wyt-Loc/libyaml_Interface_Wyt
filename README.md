@@ -4,10 +4,10 @@
 
 ![tip](https://badgen.net/badge/Ubuntu/22.04LTS/black?icon=packagephobia) 		![tip](https://badgen.net/badge/C/201710L-c17/green?icon=packagephobia) 		![tip](https://badgen.net/badge/libyaml/2.0.9/red?icon=github) 		![tip](https://badgen.net/badge/GCC/11.40/orange?icon=github)
 
-| Ubuntu 22.04.4 LTS |
+| **Ubuntu 22.04.4 LTS** |
 | ------------------ |
-| GCC version 11.4.0 |
-| libyaml-2.0.9      |
+| **GCC version 11.4.0** |
+| **libyaml-2.0.9**      |
 
 基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
 
