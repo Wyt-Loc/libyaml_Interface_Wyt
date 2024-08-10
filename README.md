@@ -1,3 +1,13 @@
+<!--
+ * @Author: Wyt 1697556601@qq.com
+ * @Date: 2024-08-08 00:26:58
+ * @LastEditors: Wyt 1697556601@qq.com
+ * @LastEditTime: 2024-08-10 22:52:21
+ * @FilePath: /libyaml_Interface_Wyt/README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by Wyt, All Rights Reserved. 
+-->
 # libyaml_Interface_Wyt
 基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
 
@@ -42,6 +52,8 @@ yaml 解析模块分布
 │       ├── input.yaml
 │       └── output.yaml
 └── README.md
+
+![alt text](image.png)
 
 src目录: 主要存放接口代码。
     - include目录：接口代码的头文件目录。
