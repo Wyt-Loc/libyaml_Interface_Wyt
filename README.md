@@ -2,13 +2,12 @@
 
 #### The environment and software version used are:
 
-| Ubuntu 22.04.4 LTS           |
-| ---------------------------- |
-| C   __STDC_VERSION__ 201710L |
-| GCC version 11.4.0           |
-| libyaml-2.0.9                |
-
 ![tip](https://badgen.net/badge/Ubuntu/22.04LTS/black?icon=packagephobia) 		![tip](https://badgen.net/badge/C/201710L-c17/green?icon=packagephobia) 		![tip](https://badgen.net/badge/libyaml/2.0.9/red?icon=github) 		![tip](https://badgen.net/badge/GCC/11.40/orange?icon=github)
+
+| Ubuntu 22.04.4 LTS |
+| ------------------ |
+| GCC version 11.4.0 |
+| libyaml-2.0.9      |
 
 基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
 
@@ -24,9 +23,5 @@ target目录：GCC编译的过程文件以及可执行文件的存放目录。
 
 yamlfile目录：用来存放yaml文件的目录。
 
-![image-20240810235018789](C:\Users\16975\AppData\Roaming\Typora\typora-user-images\image-20240810235018789.png)
-
-
-
-
+![image-20240810235018789](./image-20240810235018789.png)
 
