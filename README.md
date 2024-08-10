@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:26:58
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 22:52:21
+ * @LastEditTime: 2024-08-10 23:01:20
  * @FilePath: /libyaml_Interface_Wyt/README.md
  * @Description: 
  * 
@@ -10,50 +10,6 @@
 -->
 # libyaml_Interface_Wyt
 基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
-
-yaml 解析模块分布
-├── libyaml_Interface_Wyt
-│   ├── README.md
-│   ├── src
-│   │   ├── include
-│   │   │   ├── changeYaml.h
-│   │   │   ├── debug
-│   │   │   │   └── myDebug.h
-│   │   │   ├── getAllData.h
-│   │   │   ├── getYamlRootNode.h
-│   │   │   ├── IterativeMapping.h
-│   │   │   ├── main.h
-│   │   │   ├── readYaml.h
-│   │   │   ├── writeArray.h
-│   │   │   └── writeYaml.h
-│   │   └── source
-│   │       ├── app_yaml_start.sh
-│   │       ├── changeYaml.c
-│   │       ├── getAllData.c
-│   │       ├── getYamlRootNode.c
-│   │       ├── iterativeMapping.c
-│   │       ├── main.c
-│   │       ├── Makefile
-│   │       ├── readYaml.c
-│   │       ├── writeArray.c
-│   │       └── writeYaml.c
-│   ├── target
-│   │   ├── changeYaml.o
-│   │   ├── getAllData.o
-│   │   ├── getYamlRootNode.o
-│   │   ├── iterativeMapping.o
-│   │   ├── main
-│   │   ├── main.o
-│   │   ├── readYaml.o
-│   │   ├── writeArray.o
-│   │   └── writeYaml.o
-│   └── yamlfile
-│       ├── 测试数据.yaml
-│       ├── input.yaml
-│       └── output.yaml
-└── README.md
-
-![alt text](image.png)
 
 src目录: 主要存放接口代码。
     - include目录：接口代码的头文件目录。
