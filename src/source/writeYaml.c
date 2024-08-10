@@ -1,16 +1,26 @@
+/*
+ * @Author: Wyt 1697556601@qq.com
+ * @Date: 2024-08-08 00:32:23
+ * @LastEditors: Wyt 1697556601@qq.com
+ * @LastEditTime: 2024-08-10 13:31:59
+ * @FilePath: /libyaml_Interface_Wyt/src/source/writeYaml.c
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by Wyt, All Rights Reserved. 
+ */
 #include <stdio.h>
 #include <yaml.h>
 #include "../include/writeYaml.h"
 
 
-int writeYamlFile(void){
+int writeYamlFile(const char* fileName, const char* openMode){
 
     yaml_emitter_t emitter;
     yaml_event_t event;
     FILE *file;
 
     // 打开文件进行写入
-    file = fopen("output.yaml", "w");
+    file = fopen(fileName, openMode);
     if (file == NULL) {
         fputs("Failed to open file for writing!\n", stderr);
         return 1;

@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-09 23:49:37
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 01:08:24
+ * @LastEditTime: 2024-08-10 13:05:32
  * @FilePath: /libyaml_Interface_Wyt/src/source/readYaml.c
  * @Description: 
  * 
@@ -11,7 +11,6 @@
 
 
 #include <stdio.h>
-#include <yaml.h>
 #include "../include/readYaml.h"
 
 
@@ -19,13 +18,13 @@
  * @description:  读取YAMl数据
  * @return {*}
  */
-int readYamlFile(FILE* file){
-
+int readYamlFile(const char* fileName, const char* openMode){
     yaml_parser_t parser;
     yaml_event_t event;
+    FILE* file;
 
     // 打开文件进行读取
-    file = fopen("output.yaml", "r");
+    file = fopen(fileName, openMode);
     if (file == NULL) {
         fputs("Failed to open file for reading!\n", stderr);
         return 1;
