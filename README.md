@@ -1,5 +1,7 @@
 ## Welcome to this repository
 
+<a href="https://info.flagcounter.com/vhOC"><img src="https://s01.flagcounter.com/count2/vhOC/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+
 #### The environment and software version used are:
 
 ![tip](https://badgen.net/badge/Ubuntu/22.04LTS/black?icon=packagephobia) 		![tip](https://badgen.net/badge/C/201710L-c17/green?icon=packagephobia) 		![tip](https://badgen.net/badge/libyaml/2.0.9/red?icon=github) 		![tip](https://badgen.net/badge/GCC/11.40/orange?icon=github)
@@ -42,4 +44,4 @@ yamlfile目录：用来存放yaml文件的目录。
 
 ## 鸣谢
 
-感谢libyaml官方的开源. [text](https://github.com/yaml/libyaml)
+感谢libyaml官方的开源. [libyaml](https://github.com/yaml/libyaml)
