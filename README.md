@@ -25,8 +25,16 @@ target目录：GCC编译的过程文件以及可执行文件的存放目录。
 
 yamlfile目录：用来存放yaml文件的目录。
 
-![image-20240810235018789](./image-20240810235018789.png)
 
+### 执行方式(method of application)：
+
+```bash
+cd src/source
+
+app_yaml_start.sh
+```
+
+![image-20240810235018789](./image-20240810235018789.png)
 
 写入键值:
 ![image-20240810235018789](./image-writeyaml.png)
@@ -36,11 +44,8 @@ yamlfile目录：用来存放yaml文件的目录。
 
 写入序列:
 
-
 读取:
 ![image-20240810235018789](./image-readYaml.png)
-
-
 
 ## 鸣谢
 
