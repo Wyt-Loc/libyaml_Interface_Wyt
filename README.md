@@ -30,8 +30,8 @@ yamlfile目录：用来存放yaml文件的目录。
 
 ```bash
 cd src/source
-
-app_yaml_start.sh
+sudo chmod  +x  app_yaml_start.sh
+./app_yaml_start.sh
 ```
 
 ![image-20240810235018789](./image-20240810235018789.png)
