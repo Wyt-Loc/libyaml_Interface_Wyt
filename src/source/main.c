@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-10 01:32:02
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-11 00:17:29
+ * @LastEditTime: 2024-08-13 23:06:18
  * @FilePath: /libyaml_Interface_Wyt/src/source/main.c
  * @Description: 
  * 
@@ -25,31 +25,23 @@ int main(void){
 
     const char *inPutFileName = "../../yamlfile/input.yaml";
 
+    YamlData* yamldata0 = createKeyValue("Key0", "Value0");
+
     // 创建要写入的键值对。
-    KeyValueStore *store = createKeyValueStore("TestKey", 3);  
+    KeyValueStore* store = createKeyValueStore("TestKey1", 3);  
     addValue(store, 0, "value1");  
     addValue(store, 1, "value2");  
-    addValue(store, 2, "value3");
+    addValue(store, 2, "value3");  
 
     // 写入文件
-    writeYamlFile(inPutFileName, "w");
-    writeYamlFile(inPutFileName, "a");
-    writeYamlFile(inPutFileName, "a");
+    writeYamlFile(inPutFileName, "w", yamldata0);
     writeYamlArray(inPutFileName, "a", store);
-    writeYamlArray(inPutFileName, "a", store);
-    writeYamlArray(inPutFileName, "a", store);
-    writeYamlArray(inPutFileName, "a", store);
-    writeYamlArray(inPutFileName, "a", store);
-    writeYamlArray(inPutFileName, "a", store);
-    // readYamlFile(inPutFileName, "r");
-    // getYamlFileRootNode(inPutFileName, "r");
-    // iterativeMapping();
-
-    // 得到所有类型的数据（暂时只有 键值对， 数组，和序列）
+    writeYamlDepthTwo();
+    // 得到所有类型的数据
     getAllData();
-    
-    freeKeyValueStore(store);
+    // readDataaa();
+
+    //freeKeyValueStore(store);
     return 0;
 
 }
-

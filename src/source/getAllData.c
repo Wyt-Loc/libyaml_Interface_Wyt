@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-10 14:57:28
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 21:05:44
+ * @LastEditTime: 2024-08-13 22:30:40
  * @FilePath: /libyaml_Interface_Wyt/src/source/getAllData.c
  * @Description: 
  * 
@@ -15,17 +15,26 @@
 yaml_char_t* getKey[100];
 yaml_char_t* GetValue[1024];
 
+char* keyFlag = "key";
+
 // 递归函数，用于遍历并打印所有节点的类型和内容
 void traverse_yaml_node(yaml_document_t *document, yaml_node_t *node, int depth) {
     if (!node) return;
 
     // 打印缩进和节点类型
     for (int i = 0; i < depth; i++) printf("  ");
-    
+
     switch (node->type) {
         case YAML_SCALAR_NODE:
-            printf("Scalar: %s\n", node->data.scalar.value);
-            break;
+        if(strcmp(keyFlag, "key") == 0)
+        {
+            printf("Key scalar: %s\n", node->data.scalar.value);
+        }
+        if (strcmp(keyFlag, "value") == 0)
+        {
+            printf("value scalar: %s\n", node->data.scalar.value);
+        }
+        break;
 
         case YAML_SEQUENCE_NODE:
             printf("Sequence:\n");
@@ -44,12 +53,13 @@ void traverse_yaml_node(yaml_document_t *document, yaml_node_t *node, int depth)
                 yaml_node_t *value = yaml_document_get_node(document, pair->value);
 
                 for (int i = 0; i < depth + 1; i++) printf("  ");
-                printf("Key: ");
+                keyFlag = "key";
                 traverse_yaml_node(document, key, 0);
                 
                 for (int i = 0; i < depth + 1; i++) printf("  ");
-                printf("Value: ");
+                keyFlag = "value";
                 traverse_yaml_node(document, value, depth + 2);
+                
             }
             break;
 
@@ -75,6 +85,8 @@ int getAllData() {
     }
 
     yaml_parser_set_input_file(&parser, file);
+
+    yaml_document_get_node(&document, 2);
 
     while (yaml_parser_load(&parser, &document)) {
         // 获取文档的根节点
