@@ -136,3 +136,26 @@ Fruits:
   - Orange
   - Pear
   - *apple
+
+
+
+Key0: Value0
+
+TestKey:
+- value1
+- value2
+
+NetWork:
+  TCP:
+  - port: 3306
+  UDP:
+  - port: 5432
+
+
+defaults: &defaults
+  driver: mysql
+  host:   localhost
+
+dev:
+  database: dev
+  <<: *defaults

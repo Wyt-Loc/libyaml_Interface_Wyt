@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:32:23
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 12:56:47
+ * @LastEditTime: 2024-08-11 15:15:52
  * @FilePath: /libyaml_Interface_Wyt/src/include/writeYaml.h
  * @Description: 
  * 
@@ -13,8 +13,17 @@
 
 #include "yaml.h"
 
+typedef struct{
 
-int writeYamlFile(const char* fileName, const char* openMode);
+    char *keyName;    // 键名
+    char *value;    // 指向字符串数组的指针
+
+}YamlData;
+
+
+YamlData* createKeyValue(const char *keyName, const char *Value);
+
+int writeYamlFile(const char* fileName, const char* openMode, YamlData* yamldata);
 
 
 #endif

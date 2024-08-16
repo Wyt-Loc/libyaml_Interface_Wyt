@@ -1,15 +1,13 @@
 ## Welcome to this repository
 
-<a href="https://info.flagcounter.com/vhOC"><img src="https://s01.flagcounter.com/count2/vhOC/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
-
 #### The environment and software version used are:
 
 ![tip](https://badgen.net/badge/Ubuntu/22.04LTS/black?icon=packagephobia) 		![tip](https://badgen.net/badge/C/201710L-c17/green?icon=packagephobia) 		![tip](https://badgen.net/badge/libyaml/2.0.9/red?icon=github) 		![tip](https://badgen.net/badge/GCC/11.40/orange?icon=github)
 
-| **Ubuntu 22.04.4 LTS** |
+| Ubuntu 22.04.4 LTS |
 | ------------------ |
-| **GCC version 11.4.0** |
-| **libyaml-2.0.9**      |
+| GCC version 11.4.0 |
+| libyaml-2.0.9      |
 
 基于C语言的libyaml库进行封装完善工作。主要是进行接口函数的编写。
 
@@ -25,27 +23,49 @@ target目录：GCC编译的过程文件以及可执行文件的存放目录。
 
 yamlfile目录：用来存放yaml文件的目录。
 
-### 执行方式(method of application)
+
+
+### 执行方式(method of application)：
 
 ```bash
 cd src/source
-sudo chmod  +x  app_yaml_start.sh
-./app_yaml_start.sh
+
+app_yaml_start.sh
 ```
 
-![image-20240810235018789](./image-20240810235018789.png)
 
-写入键值:
-![image-20240810235018789](./image-writeyaml.png)
 
-写入数组:
-![image-20240810235018789](./image-writeArray.png)
 
-写入序列:
 
-读取:
-![image-20240810235018789](./image-readYaml.png)
+![image-20240810235018789](C:\Users\16975\AppData\Roaming\Typora\typora-user-images\image-20240810235018789.png)
 
-## 鸣谢
 
-感谢libyaml官方的开源. [libyaml](https://github.com/yaml/libyaml)
+
+
+
+写入键值：
+
+![image-20240811001617046](C:\Users\16975\AppData\Roaming\Typora\typora-user-images\image-20240811001617046.png)
+
+写入数组：
+
+![image-20240811001655872](C:\Users\16975\AppData\Roaming\Typora\typora-user-images\image-20240811001655872.png)
+
+写入序列：
+
+
+
+读取：
+
+![image-20240811001750185](C:\Users\16975\AppData\Roaming\Typora\typora-user-images\image-20240811001750185.png)
+
+
+
+ https://github.com/yaml/libyaml
+
+
+
+
+
+
+

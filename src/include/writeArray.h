@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:32:23
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-10 20:57:32
+ * @LastEditTime: 2024-08-13 22:33:48
  * @FilePath: /libyaml_Interface_Wyt/src/include/writeArray.h
  * @Description: 
  * 
@@ -27,6 +27,7 @@ void freeKeyValueStore(KeyValueStore *store);
 
 
 int writeYamlArray(const  char* fileName, const char* openMode, KeyValueStore *store);
-
+int writeYamlDepthTwo(void);
+int readDataaa(void);
 #endif
 
