@@ -2,6 +2,8 @@
 
 <a href="https://info.flagcounter.com/vhOC"><img src="https://s01.flagcounter.com/count2/vhOC/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
 
+<img href="https://codetime.dev" alt="CodeTime Badge" src="https://img.shields.io/endpoint?style=flat-square&color=green&url=https%3A%2F%2Fapi.codetime.dev%2Fshield%3Fid%3D26798%26project%3Dlibyaml_Interface_Wyt [SSH: 192.168.124.3]%26in=0">
+
 #### The environment and software version used are:
 
 ![tip](https://badgen.net/badge/Ubuntu/22.04LTS/black?icon=packagephobia) 		![tip](https://badgen.net/badge/C/201710L-c17/green?icon=packagephobia) 		![tip](https://badgen.net/badge/libyaml/2.0.9/red?icon=github) 		![tip](https://badgen.net/badge/GCC/11.40/orange?icon=github)

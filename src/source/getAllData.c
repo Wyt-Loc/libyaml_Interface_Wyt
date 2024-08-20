@@ -2,11 +2,11 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-10 14:57:28
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-13 22:30:40
+ * @LastEditTime: 2024-08-20 23:22:21
  * @FilePath: /libyaml_Interface_Wyt/src/source/getAllData.c
- * @Description: 
- * 
- * Copyright (c) 2024 by Wyt, All Rights Reserved. 
+ * @Description:
+ *
+ * Copyright (c) 2024 by Wyt, All Rights Reserved.
  */
 #include <yaml.h>
 #include <stdio.h>
@@ -55,11 +55,11 @@ void traverse_yaml_node(yaml_document_t *document, yaml_node_t *node, int depth)
                 for (int i = 0; i < depth + 1; i++) printf("  ");
                 keyFlag = "key";
                 traverse_yaml_node(document, key, 0);
-                
+
                 for (int i = 0; i < depth + 1; i++) printf("  ");
                 keyFlag = "value";
                 traverse_yaml_node(document, value, depth + 2);
-                
+
             }
             break;
 

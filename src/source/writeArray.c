@@ -2,7 +2,7 @@
  * @Author: Wyt 1697556601@qq.com
  * @Date: 2024-08-08 00:32:23
  * @LastEditors: Wyt 1697556601@qq.com
- * @LastEditTime: 2024-08-13 23:04:59
+ * @LastEditTime: 2024-08-20 23:21:36
  * @FilePath: /libyaml_Interface_Wyt/src/source/writeArray.c
  * @Description: 
  * 
@@ -19,54 +19,52 @@
 // Array of key-value pairs
 KeyValueStore* createKeyValueStore(const char *keyName, int numValues) {  
     KeyValueStore *store = (KeyValueStore*)malloc(sizeof(KeyValueStore));  
-    if (!store) return NULL;  
-  
-    store->keyName = strdup(keyName); // 复制键名  
+    if (!store) return NULL;
+    store->keyName = strdup(keyName); // 复制键名
     if (!store->keyName) {
-        free(store);  
-        return NULL;  
-    }  
-  
-    store->values = (char**)malloc(numValues * sizeof(char*));  
-    if (!store->values) {  
-        free(store->keyName);  
-        free(store);  
-        return NULL;  
-    }  
-  
-    store->numValues = numValues;  
-  
-    // 初始化values数组中的每个元素为NULL（如果需要的话）  
-    for (int i = 0; i < numValues; i++) {  
-        store->values[i] = NULL;  
-    }  
-  
-    return store;  
+        free(store);
+        return NULL;
+    }
+    store->values = (char**)malloc(numValues * sizeof(char*));
+    if (!store->values) {
+        free(store->keyName);
+        free(store);
+        return NULL;
+    }
+
+    store->numValues = numValues;
+
+    // 初始化values数组中的每个元素为NULL（如果需要的话）
+    for (int i = 0; i < numValues; i++) {
+        store->values[i] = NULL;
+    }
+
+    return store;
 }
 
-// 添加键值  
-void addValue(KeyValueStore *store, int index, const char *value) {  
-    if (index >= store->numValues) {  
-        fprintf(stderr, "Index out of bounds\n");  
-        return;  
+// 添加键值
+void addValue(KeyValueStore *store, int index, const char *value) {
+    if (index >= store->numValues) {
+        fprintf(stderr, "Index out of bounds\n");
+        return;
     }
-  
-    store->values[index] = strdup(value); // 复制键值  
-    if (!store->values[index]) {  
-        fprintf(stderr, "Memory allocation failed\n");  
+
+    store->values[index] = strdup(value); // 复制键值
+    if (!store->values[index]) {
+        fprintf(stderr, "Memory allocation failed\n");
     }
 }
 
-// 清理资源  
-void freeKeyValueStore(KeyValueStore *store) {  
-    if (!store) return;  
-  
-    free(store->keyName);  
-    for (int i = 0; i < store->numValues; i++) {  
-        free(store->values[i]);  
-    }  
-    free(store->values);  
-    free(store);  
+// 清理资源
+void freeKeyValueStore(KeyValueStore *store) {
+    if (!store) return;
+
+    free(store->keyName);
+    for (int i = 0; i < store->numValues; i++) {
+        free(store->values[i]);
+    }
+    free(store->values);
+    free(store);
 }
 
 
@@ -109,7 +107,7 @@ int writeYamlArray(const char* fileName, const char* openMode, KeyValueStore *st
     // 创建并发射映射开始事件
     yaml_mapping_start_event_initialize(&event, NULL, NULL, 0, YAML_BLOCK_MAPPING_STYLE);
     yaml_emitter_emit(&emitter, &event);
-    
+
     // 创建并发射标量事件 (键)
     yaml_scalar_event_initialize(&event, NULL, NULL, (yaml_char_t *)store->keyName,
                                  -1, 1, 1, YAML_PLAIN_SCALAR_STYLE);
@@ -164,9 +162,9 @@ int writeYamlArray(const char* fileName, const char* openMode, KeyValueStore *st
 
 
 
-int writeYamlDepthTwo(void) 
+int writeYamlDepthTwo(void)
 {
-    
+
     FILE *fh = fopen("../../yamlfile/input.yaml", "a");
     if (!fh) {
         perror("Failed to open file");
