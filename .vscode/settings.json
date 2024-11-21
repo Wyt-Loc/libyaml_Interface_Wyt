@@ -12,6 +12,11 @@
         "iterativemapping.h": "c",
         "getalldata.h": "c",
         "locale_t.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "types.h": "c",
+        "socket.h": "c",
+        "compare": "c",
+        "type_traits": "c",
+        "mydebug.h": "c"
     }
 }

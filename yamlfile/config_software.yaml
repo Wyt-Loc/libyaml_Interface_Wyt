@@ -1,0 +1,7 @@
+person:
+  name: John Doe
+  age: 30
+  skills:
+    - Python
+    - C
+    - YAML

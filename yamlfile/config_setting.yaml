@@ -1,0 +1,238 @@
+#此文档在产品设置时更改-用户端通过命令可配置
+#导航参数相关
+initial_nav:
+    work_mode: 1                  #工作模式(0:测试, 1:DGI，2：标定模式，3：煤炭模式)
+    zupt_stitch: 0                #零速修正（0：关闭，1打开）
+    possmooth_switch: 0           #位置平滑输出功能（0：关闭，1打开）
+    carrier: 1                    #载体类型(0:车载，1：机载，2：船载)
+    lowpass_switch: 0             #低通滤波（0：关闭，1打开）
+    pps_select: 2                 #pps来源（0：板卡， 1：手刷， 2：自动）
+    navi_fre: 200                 #导航频率,默认200Hz（且必须与实际相符）预留
+    gps_fre: 5                    #卫导频率，一般5Hz，预留
+    pps_fre: 1                    #PPS频率，一般1Hz，预留
+    filter_pre: 1                 #滤波周期，一般1Hz，预留
+    align_time: 1500              #对准时间，测试模式使用，组合模式不使用，可以通过配置这个提前转纯惯
+    initial_pos:                  #INS模式下初始经纬高，经纬度单位°，高度单位m
+        lat: 39.71442660
+        lon: 116.03527210
+        alt: 53.2000
+    arm1:                         #主天线杆臂，单位m
+        x: 0.0
+        y: 0.0
+        z: 0.0
+    arm2:                         #从天线杆臂，单位m
+        x: 0.1
+        y: 0.0
+        z: 0.0
+    arm3:                         #输出杆臂，单位m
+        x: 0.2
+        y: 0.0
+        z: 0.0
+    install_angle:                #内安装误差角，航俯滚，单位°  预留
+        yaw: 0.0000
+        pitch: 0.0000
+        roll: 0.0000
+    vehicle_body_rotation:        #惯导安装偏差，单位°
+        yaw: 0.0000
+        pitch: 0.0000
+        roll: 0.0000
+    output_att_rotation:          #航姿角输出偏转，单位°
+        yaw: 0.0000
+        pitch: 0.0000
+        roll: 0.0000
+    gnss_com_map: 1               #gnss口映射（0：不映射，其他值为映射到对应的com_fpga口）
+#采煤参数配置
+initial_coal:
+    zeropluse: 1                  #X坐标偏移
+    bracker_dis: 1.5              #支架间距
+    head_coord_pos:               #头坐标点经纬度，经纬度单位°，高度单位m
+        lat:
+        lon:
+        alt:
+    tail_coord_pos:               #尾坐标点经纬度，经纬度单位°，高度单位m
+        lat:
+        lon:
+        alt:            
+    #这里还有好几个…………
+#输入控制
+input_control:
+    flight_control:
+        data_com: 1               #通过对应串口获取飞控数据
+        protocol: 1               #飞控协议类型，主要对应不同的飞控厂家
+        air_err:                  #空速管安装偏差
+            k: 1.0                #空速标度系数
+            install_rotation:     #空速计安装偏差，航俯滚，单位°
+                yaw: 0.011000           
+                pitch: 0.0000         
+                roll: 0.0000        
+    external_gnss:
+        data_com: 1               #通过对应串口获取卫导数据
+        gnsscard: 0               #板卡类型（0：982板卡， 1：718D板卡）---是否需要做配置，或者后期在代码中能否做到自动识别；此配置是否放到生产配置中
+    dvl:
+        data_com: 1               #通过对应串口获取DVL数据
+        protocol:                 #DVL协议类型，主要对应不同的DVL厂家
+        dvl_err:                  #dvl测速仪安装偏差
+            k: 1.0                #dvl标度系数
+            install_rotation:     #dvl安装偏差，航俯滚，单位°
+                yaw: 0.0000           
+                pitch: 0.0000         
+                roll: 0.0000      
+    odometer:                     #
+        type: 0                   #里程计类型（0:脉冲， 1:can，2:udp, 3:tcp, 4:modbus, 5:串口）
+        dr_front_err:             #里程计正向行驶误差
+            k: 1.0                #里程计正向标度系数
+            install_rotation:     #里程计正向安装偏差，航俯滚，单位°
+                yaw: 0.0000           
+                pitch: 0.0000         
+                roll: 0.0000          
+        dr_reverse_err:           #里程计反向误差
+            k: 1.0                #里程计反向标度系数
+            install_rotation:     #里程计正向安装偏差，航俯滚，单位°
+                yaw: 0.0000           
+                pitch: 0.0000         
+                roll: 0.0000
+        can:                      #CAN里程计配置
+            can1:                 #CAN1里程计配置
+                canid: 0x0123     #CAN ID号
+                filter: 0
+                baud: 500         #波特率
+            can2:                 #CAN2里程计配置
+                canid: 0x0123     #CAN ID号
+                filter: 0
+                baud: 500         #波特率
+        tcp:
+            protocol:             #协议类型：对应不同的集控
+            ip: 192.168.1.1
+            port: 9999
+        udp:
+            protocol:             #协议类型：对应不同的集控
+            ip: 192.168.1.2
+            port: 9998
+        modbus:
+            ip: 192.168.1.3
+            port: 502
+            size: 2               #长度
+            address: 40001        #起始地址
+        com:
+            data_com: 1           #通过对应串口获取数据
+            protocol: 1           #协议类型：对应不同的集控
+    vision:                       #视觉相机
+#输出控制
+output_control:
+    com1_fpga:                    #对外串口1配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+           - name: sncpost
+             freq: 0               #频率：
+           - name: sncnav
+             freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800
+    com2_fpga:                    #对外串口2配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com3_fpga:                    #对外串口3配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com4_fpga:                    #对外串口4配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com5_fpga:                    #对外串口5配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com6_fpga:                    #对外串口6配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com7_fpga:                    #对外串口7配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    com8_fpga:                    #对外串口8配置
+        config_port: false        #是否是配置口true、false
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+        type: 422                 #422串口
+        verify: none              #校验位：none、odd、even
+        data: 8                   #数据位：8、7、6、5
+        stop: 1                   #停止位：1、1.5、2
+        baue: 460800              #波特率：115200、460800    
+    file:
+        protocol:                 #协议类型：sncpost、sncnav等
+          - name: sncpost
+            freq: 0               #频率：
+          - name: sncnav
+            freq: 0.1             #频率：
+    net:
+        tcp:
+            port: 8080
+            protocol:             #协议类型：sncpost、sncnav等
+              - name: sncpost
+                freq: 0           #频率：
+              - name: sncnav
+                freq: 0.1         #频率：
+        udp:
+            port: 8081
+            protocol:             #协议类型：sncpost、sncnav等
+              - name: sncpost
+                freq: 0           #频率：
+              - name: sncnav
+                freq: 0.1         #频率：
