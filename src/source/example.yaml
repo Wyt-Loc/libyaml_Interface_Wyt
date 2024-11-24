@@ -1,17 +1,10 @@
-product_id: 20241029053
-manufacture_date: 20241029
-soft_version: 4.01.00
-bdparamfix:
-  fix_x: 360.000000
-  fix_y: 360.000000
-  fix_z: 360.000000
-gyrodrift:
-  drift_x: 0.000000
-  drift_y: 0.000000
-  drift_z: 0.000000
-accbias:
-  bias_x: 0.000000
-  bias_y: 0.000000
-  bias_z: 0.000000
-encoder1_zero: 0.0
-encoder2_zero: 0.0
+protocol1:
+- name: sncpost
+  freq: 0
+- name: sncnav
+  freq: 0.1
+protocol2:
+- name: sncpost
+  freq: 0
+- name: sncnav
+  freq: 0.1

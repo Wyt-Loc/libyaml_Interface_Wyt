@@ -24,7 +24,6 @@ int main()
 */
 
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -347,8 +346,51 @@ int insert_after_key(YamlNode *head, const char *target_key, const char *new_key
 }
 
 
-int main() {
+// 递归修改链表中指定根节点下的目标键的值
+// 递归修改链表中指定根节点下的目标键的值
+int modify_key_value(YamlNode *head, const char *target_key, const char *new_value, const char *target_root) {
+    YamlNode *current = head;
 
+    // 如果当前节点为空，说明已经遍历完了
+    if (current == NULL) {
+        return 0; // 未找到目标键
+    }
+
+    printf("%s, %s\r\n", current->key, target_root);
+
+    // 如果当前节点是目标根节点，开始处理
+    if (current->key && strcmp(current->key, target_root) == 0) {
+        // 遍历当前节点下的链表
+        while (current) {
+            printf("kkkey == %s\r\n", current->key);
+
+            // 如果找到目标键，则修改其值
+            if (current->key && strcmp(current->key, target_key) == 0) {
+                // 找到目标键，修改值
+                if (current->value) {
+                    free(current->value); // 释放旧值
+                }
+                current->value = strdup(new_value); // 分配新值
+                return 1; // 修改成功
+            }
+
+            // 递归修改当前节点的子节点
+            if (current->children) {
+                if (modify_key_value(current->children, target_key, new_value, target_root)) {
+                    return 1; // 成功修改子节点
+                }
+            }
+        }
+                    // 移动到下一个节点
+            current = current->next;
+    }
+
+
+    return 0; // 未找到目标键
+}
+
+
+int main() {
     const char *input_file = "example.yaml";
     const char *output_file = "example.yaml";
 
@@ -358,10 +400,25 @@ int main() {
         printf("Parsed YAML content:\n");
         print_yaml_node(root, 0);
 
-        // 写入 YAML 文件
+        // 修改键值
+        const char *target_key = "name";
+        const char *target_root = "protocol1";
+        const char *new_value = "Jane Doe";
+
+        if (modify_key_value(root, target_key, new_value, target_root)) {
+            printf("\nKey '%s' updated to new value: '%s'\n", target_key, new_value);
+        } else {
+            printf("\nKey '%s' not found.\n", target_key);
+        }
+
+        // 打印修改后的内容
+        printf("\nModified YAML content:\n");
+        print_yaml_node(root, 0);
+
+        // 写入修改后的内容到新文件
         write_yaml_to_file(output_file, root);
 
-        printf("\nYAML content has been written to %s\n", output_file);
+        printf("\nModified YAML content has been written to %s\n", output_file);
 
         // 释放内存
         free_yaml_node(root);
