@@ -1,10 +1,5 @@
-protocol1:
-- name: sncpost
-  freq: 0
-- name: sncnav
-  freq: 0.1
-protocol2:
-- name: sncpost
-  freq: 0
-- name: sncnav
-  freq: 0.1
+initial_nav:
+    work_mode: 1
+    zupt_stitch: 0
+    possmooth_switch: 0
+    carrier: 1

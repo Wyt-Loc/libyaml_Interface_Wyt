@@ -23,12 +23,6 @@ int main()
 }
 */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <yaml.h>
-
 // 节点类型
 typedef enum {
     YAML_SCALAR_NODE_TYPE,
@@ -45,7 +39,6 @@ typedef struct YamlNode {
     struct YamlNode *next;         // 下一个链表节点
 } YamlNode;
 
-
 // 创建新的 YAML 节点
 YamlNode *create_yaml_node(const char *key, const char *value, NodeType type) {
     YamlNode *node = (YamlNode *)malloc(sizeof(YamlNode));
@@ -59,6 +52,11 @@ YamlNode *create_yaml_node(const char *key, const char *value, NodeType type) {
 
 // 添加子节点
 void append_yaml_node(YamlNode **head, YamlNode *node) {
+    if (!node) {
+        fprintf(stderr, "Error: Attempt to append NULL node.\n");
+        return;
+    }
+
     if (*head == NULL) {
         *head = node;
     } else {
@@ -68,7 +66,13 @@ void append_yaml_node(YamlNode **head, YamlNode *node) {
         }
         current->next = node;
     }
+
+    printf("Appended node: key = '%s', value = '%s', type = %d\n", 
+           node->key ? node->key : "(null)", 
+           node->value ? node->value : "(null)", 
+           node->type);
 }
+
 
 // 遍历 YAML 节点
 void traverse_yaml_document(yaml_document_t *document, yaml_node_t *node, YamlNode **head, const char *key) {
@@ -95,16 +99,21 @@ void traverse_yaml_document(yaml_document_t *document, yaml_node_t *node, YamlNo
         }
 
         case YAML_MAPPING_NODE: {
-            // 映射节点：存储键，同时递归解析子项
-            YamlNode *mapping_node = create_yaml_node(key, NULL, YAML_MAPPING_NODE_TYPE);
-            append_yaml_node(head, mapping_node);
+            // 判断是否需要包一层
+            YamlNode **current_head = head;
+
+            if (key) { // 如果有 key，则创建包裹节点
+                YamlNode *mapping_node = create_yaml_node(key, NULL, YAML_MAPPING_NODE_TYPE);
+                append_yaml_node(head, mapping_node);
+                current_head = &mapping_node->children;
+            }
 
             for (yaml_node_pair_t *pair = node->data.mapping.pairs.start; pair < node->data.mapping.pairs.top; pair++) {
                 yaml_node_t *key_node = yaml_document_get_node(document, pair->key);
                 yaml_node_t *value_node = yaml_document_get_node(document, pair->value);
 
                 char *key_str = key_node && key_node->type == YAML_SCALAR_NODE ? (char *)key_node->data.scalar.value : NULL;
-                traverse_yaml_document(document, value_node, &mapping_node->children, key_str);
+                traverse_yaml_document(document, value_node, current_head, key_str);
             }
             break;
         }
@@ -135,18 +144,24 @@ YamlNode *parse_yaml_file(const char *filename) {
 
     YamlNode *root = NULL;
     if (yaml_parser_load(&parser, &document)) {
-        yaml_node_t *root_node = yaml_document_get_root_node(&document);
+    yaml_node_t *root_node = yaml_document_get_root_node(&document);
+
+    // 直接处理根节点
+    if (root_node) {
         traverse_yaml_document(&document, root_node, &root, NULL);
-        yaml_document_delete(&document);
-    } else {
-        fprintf(stderr, "Failed to parse YAML\n");
     }
+
+    yaml_document_delete(&document);
+} else {
+    fprintf(stderr, "Failed to parse YAML\n");
+}
 
     yaml_parser_delete(&parser);
     fclose(file);
 
     return root;
 }
+
 // 打印链表
 void print_yaml_node(YamlNode *node, int indent) {
     while (node) {
@@ -176,98 +191,91 @@ void free_yaml_node(YamlNode *node) {
     }
 }
 
+void write_yaml_node(yaml_emitter_t *emitter, YamlNode *node, int is_root) {
+    if (!node) return;
 
-// 写入单个 YAML 节点
-void write_yaml_node(yaml_emitter_t *emitter, YamlNode *node) {
     yaml_event_t event;
 
+    printf("nodetype = %d\r\n", node->type);
+
     while (node) {
+        printf("Writing node: key = '%s', value = '%s', type = %d\n",
+               node->key ? node->key : "(null)",
+               node->value ? node->value : "(null)",
+               node->type);
+
         if (node->type == YAML_SCALAR_NODE_TYPE) {
+            // Write key if present
             if (node->key) {
-                // 写入键
-                yaml_scalar_event_initialize(&event, NULL, NULL,
-                                             (yaml_char_t *)node->key, strlen(node->key),
-                                             1, 1, YAML_PLAIN_SCALAR_STYLE);
+                printf("1234\r\n");
+                yaml_scalar_event_initialize(
+                    &event, NULL, NULL, (unsigned char *)node->key, strlen(node->key),
+                    1, 0, YAML_PLAIN_SCALAR_STYLE);
                 if (!yaml_emitter_emit(emitter, &event)) {
-                    fprintf(stderr, "Failed to emit scalar key\n");
+                    fprintf(stderr, "Failed to emit key event 1\n");
                     return;
                 }
             }
 
-            // 写入值
-            yaml_scalar_event_initialize(&event, NULL, NULL,
-                                         (yaml_char_t *)node->value, strlen(node->value),
-                                         1, 1, YAML_PLAIN_SCALAR_STYLE);
-            if (!yaml_emitter_emit(emitter, &event)) {
-                fprintf(stderr, "Failed to emit scalar value\n");
-                return;
-            }
-
-        } else if (node->type == YAML_SEQUENCE_NODE_TYPE) {
-            if (node->key) {
-                // 写入序列键
-                yaml_scalar_event_initialize(&event, NULL, NULL,
-                                             (yaml_char_t *)node->key, strlen(node->key),
-                                             1, 1, YAML_PLAIN_SCALAR_STYLE);
+            // Write value if present
+            if (node->value) {
+                yaml_scalar_event_initialize(
+                    &event, NULL, NULL, (unsigned char *)node->value, strlen(node->value),
+                    1, 0, YAML_PLAIN_SCALAR_STYLE);
                 if (!yaml_emitter_emit(emitter, &event)) {
-                    fprintf(stderr, "Failed to emit sequence key\n");
+                    fprintf(stderr, "Failed to emit value event\n");
                     return;
                 }
             }
-
-            // 开始序列
-            yaml_sequence_start_event_initialize(&event, NULL, NULL, 1, YAML_BLOCK_SEQUENCE_STYLE);
-            if (!yaml_emitter_emit(emitter, &event)) {
-                fprintf(stderr, "Failed to emit sequence start\n");
-                return;
-            }
-
-            // 递归写入序列内容
-            write_yaml_node(emitter, node->children);
-
-            // 结束序列
-            yaml_sequence_end_event_initialize(&event);
-            if (!yaml_emitter_emit(emitter, &event)) {
-                fprintf(stderr, "Failed to emit sequence end\n");
-                return;
-            }
-
         } else if (node->type == YAML_MAPPING_NODE_TYPE) {
+            // Write mapping start event with the key
             if (node->key) {
-                // 写入映射键
-                yaml_scalar_event_initialize(&event, NULL, NULL,
-                                             (yaml_char_t *)node->key, strlen(node->key),
-                                             1, 1, YAML_PLAIN_SCALAR_STYLE);
+                yaml_scalar_event_initialize(
+                    &event, NULL, NULL, (unsigned char *)node->key, strlen(node->key),
+                    1, 0, YAML_PLAIN_SCALAR_STYLE);
                 if (!yaml_emitter_emit(emitter, &event)) {
-                    fprintf(stderr, "Failed to emit mapping key\n");
+                    fprintf(stderr, "Failed to emit mapping key event\n");
                     return;
                 }
             }
 
-            // 开始映射
             yaml_mapping_start_event_initialize(&event, NULL, NULL, 1, YAML_BLOCK_MAPPING_STYLE);
             if (!yaml_emitter_emit(emitter, &event)) {
-                fprintf(stderr, "Failed to emit mapping start\n");
+                fprintf(stderr, "Failed to begin mapping\n");
                 return;
             }
 
-            // 递归写入映射内容
-            write_yaml_node(emitter, node->children);
+            write_yaml_node(emitter, node->children, 0);  // Process children
 
-            // 结束映射
+            // Write mapping end event
             yaml_mapping_end_event_initialize(&event);
             if (!yaml_emitter_emit(emitter, &event)) {
-                fprintf(stderr, "Failed to emit mapping end\n");
+                fprintf(stderr, "Failed to end mapping\n");
+                return;
+            }
+        } else if (node->type == YAML_SEQUENCE_NODE_TYPE) {
+            // Write sequence start event
+            yaml_sequence_start_event_initialize(&event, NULL, NULL, 1, YAML_BLOCK_SEQUENCE_STYLE);
+            if (!yaml_emitter_emit(emitter, &event)) {
+                fprintf(stderr, "Failed to begin sequence\n");
+                return;
+            }
+
+            write_yaml_node(emitter, node->children, 0);  // Process children
+
+            // Write sequence end event
+            yaml_sequence_end_event_initialize(&event);
+            if (!yaml_emitter_emit(emitter, &event)) {
+                fprintf(stderr, "Failed to end sequence\n");
                 return;
             }
         }
-
         node = node->next;
     }
 }
 
-// 写入链表内容到 YAML 文件
-void write_yaml_to_file(const char *filename, YamlNode *root) {
+
+void write_yaml_file(const char *filename, YamlNode *root) {
     FILE *file = fopen(filename, "w");
     if (!file) {
         perror("Failed to open file for writing");
@@ -282,148 +290,79 @@ void write_yaml_to_file(const char *filename, YamlNode *root) {
         fclose(file);
         return;
     }
-
     yaml_emitter_set_output_file(&emitter, file);
 
-    // 开始 YAML 文档
+    // Start YAML stream
     yaml_stream_start_event_initialize(&event, YAML_UTF8_ENCODING);
     if (!yaml_emitter_emit(&emitter, &event)) {
-        fprintf(stderr, "Failed to emit stream start\n");
+        fprintf(stderr, "Failed to emit YAML stream start event\n");
         yaml_emitter_delete(&emitter);
         fclose(file);
         return;
     }
 
+    // Start YAML document
     yaml_document_start_event_initialize(&event, NULL, NULL, NULL, 1);
     if (!yaml_emitter_emit(&emitter, &event)) {
-        fprintf(stderr, "Failed to emit document start\n");
+        fprintf(stderr, "Failed to emit document start event\n");
         yaml_emitter_delete(&emitter);
         fclose(file);
         return;
     }
 
-    // 写入链表内容
-    write_yaml_node(&emitter, root);
+    // **检查根节点类型，必要时包装**
+    if (root && root->type == YAML_SCALAR_NODE_TYPE) {
+        printf("Wrapping root scalar node into a mapping\n");
+        YamlNode *wrapped_root = create_yaml_node("root", NULL, YAML_MAPPING_NODE_TYPE);
+        wrapped_root->children = root;
+        root = wrapped_root; // 更新根节点为映射
+    }
 
-    // 结束 YAML 文档
+    // Write root node
+    write_yaml_node(&emitter, root, 1);
+
+    // End YAML document
     yaml_document_end_event_initialize(&event, 1);
     if (!yaml_emitter_emit(&emitter, &event)) {
-        fprintf(stderr, "Failed to emit document end\n");
+        fprintf(stderr, "Failed to emit document end event\n");
         yaml_emitter_delete(&emitter);
         fclose(file);
         return;
     }
 
+    // End YAML stream
     yaml_stream_end_event_initialize(&event);
     if (!yaml_emitter_emit(&emitter, &event)) {
-        fprintf(stderr, "Failed to emit stream end\n");
+        fprintf(stderr, "Failed to emit YAML stream end event\n");
         yaml_emitter_delete(&emitter);
         fclose(file);
         return;
     }
 
+    // Clean up
     yaml_emitter_delete(&emitter);
     fclose(file);
 }
 
-// 在链表中查找指定键，并在其后插入新键值对
-int insert_after_key(YamlNode *head, const char *target_key, const char *new_key, const char *new_value, int new_type) {
-    YamlNode *current = head;
 
-    // 遍历链表查找目标键
-    while (current) {
-        if (current->key && strcmp(current->key, target_key) == 0) {
-            // 找到目标键
-            YamlNode *new_node = create_yaml_node(new_key, new_value, new_type);
-            new_node->next = current->next; // 将新节点连接到链表
-            current->next = new_node;      // 将当前节点指向新节点
-            return 1; // 插入成功
-        }
-        current = current->next;
-    }
-
-    return 0; // 未找到目标键
-}
-
-
-// 递归修改链表中指定根节点下的目标键的值
-// 递归修改链表中指定根节点下的目标键的值
-int modify_key_value(YamlNode *head, const char *target_key, const char *new_value, const char *target_root) {
-    YamlNode *current = head;
-
-    // 如果当前节点为空，说明已经遍历完了
-    if (current == NULL) {
-        return 0; // 未找到目标键
-    }
-
-    printf("%s, %s\r\n", current->key, target_root);
-
-    // 如果当前节点是目标根节点，开始处理
-    if (current->key && strcmp(current->key, target_root) == 0) {
-        // 遍历当前节点下的链表
-        while (current) {
-            printf("kkkey == %s\r\n", current->key);
-
-            // 如果找到目标键，则修改其值
-            if (current->key && strcmp(current->key, target_key) == 0) {
-                // 找到目标键，修改值
-                if (current->value) {
-                    free(current->value); // 释放旧值
-                }
-                current->value = strdup(new_value); // 分配新值
-                return 1; // 修改成功
-            }
-
-            // 递归修改当前节点的子节点
-            if (current->children) {
-                if (modify_key_value(current->children, target_key, new_value, target_root)) {
-                    return 1; // 成功修改子节点
-                }
-            }
-        }
-                    // 移动到下一个节点
-            current = current->next;
-    }
-
-
-    return 0; // 未找到目标键
-}
-
-
-int main() {
+int main()
+{
     const char *input_file = "example.yaml";
-    const char *output_file = "example.yaml";
+    const char *output_file = "example1.yaml";
 
     // 解析 YAML 文件
     YamlNode *root = parse_yaml_file(input_file);
     if (root) {
-        printf("Parsed YAML content:\n");
+        printf("解析的 YAML 结构为:\n");
         print_yaml_node(root, 0);
 
-        // 修改键值
-        const char *target_key = "name";
-        const char *target_root = "protocol1";
-        const char *new_value = "Jane Doe";
-
-        if (modify_key_value(root, target_key, new_value, target_root)) {
-            printf("\nKey '%s' updated to new value: '%s'\n", target_key, new_value);
-        } else {
-            printf("\nKey '%s' not found.\n", target_key);
-        }
-
-        // 打印修改后的内容
-        printf("\nModified YAML content:\n");
-        print_yaml_node(root, 0);
-
-        // 写入修改后的内容到新文件
-        write_yaml_to_file(output_file, root);
-
-        printf("\nModified YAML content has been written to %s\n", output_file);
+        // 写入 YAML 文件
+        printf("开始写入\r\n");
+        write_yaml_file(output_file, root);
+        printf("链表内容已写入 %s\n", output_file);
 
         // 释放内存
         free_yaml_node(root);
-    } else {
-        printf("Failed to parse YAML file.\n");
     }
 
     return 0;
